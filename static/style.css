@@ -1,0 +1,122 @@
+html, body {
+  background: #303030;
+  font-family: 'Ubuntu', sans-serif;
+  margin: 0 auto;
+}
+
+.channel-title {
+  align-items: center;
+  background-color: #181818;
+  box-shadow: rgba(0, 0, 0, .2) 0 2px 0px, rgba(0, 0, 0, .06) 0 3px 0;
+  display: flex;
+  flex-direction: row;
+  height: 36px;
+  margin-bottom: .5em;
+  padding: .5em;
+}
+
+.channel-title .name { margin-left: .25em; }
+.channel-title .expire { margin-left: .5em; }
+
+.channel-title svg, .channel-title .name {
+  fill: #ccc;
+  color: #ccc;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  padding: 0 1em;
+}
+
+.messages .message .content img {
+  width: auto;
+  height: auto;
+  max-height: 200px;
+  max-width: 400px;
+  margin-top: .3em;
+}
+
+.messages .message .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  left: 0;
+  position: absolute;
+}
+
+.messages .message .username {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.messages .message .msg {
+  margin: 0;
+  font-size: 16px;
+}
+
+.messages .message {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 2px 54px;
+  margin: .5em 0;
+}
+
+.message .content-container .content {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 0;
+  text-decoration: none;
+  text-transform: none;
+  width: auto;
+  transition: transform 250ms ease-in-out;
+}
+
+.message .content-container .content:hover { background-color: rgba(0, 0, 0, .25); }
+
+.message .content-container .msg {
+  color: #fff;
+  text-transform: none;
+}
+
+/* ERROR PAGE */
+.nothing-found {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.nothing-found h1 {
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+
+.nothing-found .code {
+  color: #e74c3c;
+}
+
+/* INTRO */
+.intro-container {
+  align-items: center;
+  animation: background-pulse 5s ease-in-out infinite;
+  background: #181818;
+  display: flex;
+  font-size: 32px;
+  height: 100%;
+  justify-content: center;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+@keyframes background-pulse {
+  0% { background: #181818; }
+  30% { background: #282828; }
+  60% { background: #282828; }
+  100% { background: #181818; }
+}

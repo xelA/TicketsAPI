@@ -1,0 +1,46 @@
+{
+  "channel_name": "ticket-1337",
+  "author_id": "267941509272174592",
+  "guild_id": "1337133713371337",
+  "users": {
+    "420420420420420420": {
+      "username": "AlexFlipnote#0001",
+      "avatar": "jeff.png",
+      "badge": "Staff"
+    },
+    "696969696969696969": {
+      "username": "Username#0000",
+      "avatar": "name.png",
+      "badge": null
+    }
+  },
+  "messages": [
+    {
+      "author": "420420420420420420",
+      "timestamp": 1582737777,
+      "content": [
+        {"msg": "How can I help you?"}
+      ]
+    },
+    {
+      "author": "696969696969696969",
+      "timestamp": 1582737790,
+      "content": [
+        {"msg": "This guy is being a bully..."},
+        {
+          "msg": "proof:",
+          "attachments": [
+            {"filename": "proof.png", "content": "https://i.alexflipnote.dev/6CaT4JJ.png"}
+          ]
+        }
+      ]
+    },
+    {
+      "author": "420420420420420420",
+      "timestamp": 1582737777,
+      "content": [
+        {"msg": "I'll have a look to it..."}
+      ]
+    }
+  ]
+}
