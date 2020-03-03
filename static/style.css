@@ -1,8 +1,11 @@
 html, body {
   background: #303030;
+  color: #fff;
   font-family: 'Ubuntu', sans-serif;
   margin: 0 auto;
 }
+
+h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
 
 .channel-title {
   align-items: center;
@@ -47,14 +50,17 @@ html, body {
 }
 
 .messages .message .username {
-  margin: 0;
   font-size: 18px;
+  font-weight: 600;
   letter-spacing: 1px;
+  margin: 0;
 }
 
 .messages .message .msg {
   margin: 0;
   font-size: 16px;
+  color: #ccc;
+  text-transform: none;
 }
 
 .messages .message {
@@ -76,11 +82,6 @@ html, body {
 }
 
 .message .content-container .content:hover { background-color: rgba(0, 0, 0, .25); }
-
-.message .content-container .msg {
-  color: #fff;
-  text-transform: none;
-}
 
 /* ERROR PAGE */
 .nothing-found {
