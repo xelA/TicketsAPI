@@ -40,7 +40,7 @@ class Ticket:
 
         query = "INSERT INTO tickets " \
                 "(ticket_id, guild_id, author_id, submitted_by, created_at, logs, expire) " \
-                "VALUES (?, ?, ?, ?, ?, ?)"
+                "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
         right_now = int(time.time())
         ticket_id = self.generate_id
