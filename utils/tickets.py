@@ -39,15 +39,15 @@ class Ticket:
             return (code, output)
 
         query = "INSERT INTO tickets " \
-                "(ticket_id, guild_id, author_id, submitted_by, created_at, logs, expire) " \
-                "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                "(ticket_id, guild_id, author_id, context, submitted_by, created_at, logs, expire) " \
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 
         right_now = int(time.time())
         ticket_id = self.generate_id
 
         try:
             self.db.execute(
-                query, (ticket_id, int(output["guild_id"]), int(output["author_id"]),
+                query, (ticket_id, int(output["guild_id"]), int(output["author_id"]), output["context"],
                 int(output["submitted_by"]), right_now, json.dumps(output), right_now + self.expire)
             )
         except Exception as e:
@@ -107,6 +107,7 @@ class Ticket:
 
             "type": "object",
             "properties": {
+                "context": {"type": "string"},
                 "channel_name": {"type": "string"},
                 "submitted_by": {"type": "string", "pattern": self.re_discord_id},
                 "author_id": {"type": "string", "pattern": self.re_discord_id},
@@ -117,7 +118,7 @@ class Ticket:
                     "items": {"$ref": "#/definitions/messages"}
                 }
             },
-            "required": ["channel_name", "guild_id", "author_id", "users", "messages", "submitted_by"]
+            "required": ["channel_name", "guild_id", "author_id", "users", "messages", "submitted_by", "context"]
         }
 
         try:

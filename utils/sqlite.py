@@ -36,6 +36,7 @@ class Database:
             ticket_id BIGINT NOT NULL,
             guild_id BIGINT NOT NULL,
             submitted_by BIGINT NOT NULL,
+            context TEXT NOT NULL,
             author_id BIGINT NOT NULL,
             created_at BIGINT NOT NULL,
             logs JSON NOT NULL,
