@@ -35,6 +35,7 @@ class Database:
         CREATE TABLE IF NOT EXISTS tickets (
             ticket_id BIGINT NOT NULL,
             guild_id BIGINT NOT NULL,
+            submitted_by BIGINT NOT NULL,
             author_id BIGINT NOT NULL,
             created_at BIGINT NOT NULL,
             logs JSON NOT NULL,
