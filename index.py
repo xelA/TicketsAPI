@@ -1,5 +1,4 @@
 import json
-import datetime
 import time
 import os
 
@@ -46,7 +45,7 @@ async def show_ticket(request, ticket_id):
     get_logs = json.loads(data["logs"])
 
     return {
-        "status": 200, "title": f"xelA Tickets: {ticket_id}",
+        "status": 200, "title": f"xelA Tickets: {ticket_id}", "submitted_by": data["submitted_by"],
         "ticket_id": data["ticket_id"], "guild_id": data["guild_id"], "author_id": data["author_id"],
         "created_at": datetime.fromtimestamp(data["created_at"]).strftime("%d %B %Y %H:%S"),
         "expires": datetime.fromtimestamp(data["expire"]).strftime("%d %B %Y %H:%S"),
@@ -59,10 +58,10 @@ async def submit(request):
     token = request.headers.get("Authorization") or None
     post_data = request.json
 
-    if "author_id" not in post_data:
-        return response.json({"status": 400, "message": "Missing 'author_id' in JSON"}, status=400)
+    if "submitted_by" not in post_data:
+        return response.json({"status": 400, "message": "Missing 'submitted_by' in JSON"}, status=400)
 
-    if post_data["author_id"] == config["bot_id"]:
+    if post_data["submitted_by"] == config["bot_id"]:
         if not token:
             return response.json({"status": 400, "message": "Missing Authorization headers"}, status=400)
         if token != config["token"]:
