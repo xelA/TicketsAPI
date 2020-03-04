@@ -75,7 +75,7 @@ async def submit(request):
     if code != 200:
         return response.json({"status": code, "message": data.message, "validator": data.validator}, status=code)
 
-    return response.json({"response": code, "message": data})
+    return response.json({"status": code, "message": data})
 
 
 if __name__ == "__main__":
