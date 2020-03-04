@@ -27,7 +27,9 @@
               <p class="msg">{{ content.msg }}</p>
               {% if content.attachments %}
                 {% for file in content.attachments %}
-                  <img src="{{ file.content }}" alt="{{ file.filename }}">
+                  <div class="image-container">
+                    <img src="{{ file.content }}" alt="{{ file.filename }}">
+                  </div>
                 {% endfor %}
               {% endif %}
             </a>
@@ -36,6 +38,7 @@
       </div>
     {% endfor %}
   </section>
+  <h3 class="closed-ticket">Ticket closed...</h3>
 </main>
 
 {% else %}

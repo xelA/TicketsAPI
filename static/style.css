@@ -7,6 +7,22 @@ html, body {
 
 h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
 
+:target {
+  position: relative;
+}
+
+:target::before {
+  position: absolute;
+  content: " ";
+  background: rgba(250, 166, 26, .1);
+  height: 100%;
+  width: 100%;
+  top: -3px;
+  left: -3px;
+  padding-right: 6px;
+  padding-bottom: 6px;
+}
+
 .channel-title {
   align-items: center;
   background-color: #181818;
@@ -50,11 +66,20 @@ h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
 .messages .message .content img {
   display: block;
   height: auto;
-  margin-top: .3em;
-  max-height: 200px;
-  max-width: 400px;
+  max-height: 250px;
+  max-width: 450px;
   object-fit: contain;
   width: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.message .content .image-container {
+  height: 250px;
+  margin-top: .3em;
+  position: relative;
+  width: 100%;
 }
 
 .messages .message .avatar {
@@ -98,6 +123,17 @@ h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
 }
 
 .message .content-container .content:hover { background-color: rgba(0, 0, 0, .25); }
+
+.closed-ticket {
+  border-top: 2px solid rgba(231, 76, 60, .5);
+  display: block;
+  font-size: 24px;
+  letter-spacing: 2px;
+  margin: 0;
+  padding: .5em 0;
+  text-align: center;
+  width: 100%;
+}
 
 /* ERROR PAGE */
 .nothing-found {
