@@ -6,6 +6,7 @@ html, body {
 }
 
 h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
+img { -webkit-user-drag: none; }
 
 :target {
   position: relative;
@@ -63,23 +64,25 @@ h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
   margin: 0;
 }
 
-.messages .message .content img {
-  display: block;
+.messages .message .content .upload {
+  display: grid;
   height: auto;
   max-height: 250px;
-  max-width: 450px;
+  max-width: 520px;
   object-fit: contain;
   width: auto;
-  position: absolute;
-  left: 0;
-  top: 0;
 }
 
 .message .content .image-container {
-  height: 250px;
   margin-top: .3em;
   position: relative;
   width: 100%;
+}
+
+.author_id {
+  font-weight: normal;
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
 .messages .message .avatar {
@@ -101,7 +104,15 @@ h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
   margin: 0;
   font-size: 16px;
   color: #ccc;
+  white-space: pre-wrap;
   text-transform: none;
+}
+
+.messages .message .emoji {
+  height: 22px;
+  object-fit: contain;
+  vertical-align: bottom;
+  width: 22px;
 }
 
 .messages .message {
@@ -118,8 +129,8 @@ h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
   padding: 2px 0;
   text-decoration: none;
   text-transform: none;
-  width: auto;
   transition: transform 250ms ease-in-out;
+  width: auto;
 }
 
 .message .content-container .content:hover { background-color: rgba(0, 0, 0, .25); }

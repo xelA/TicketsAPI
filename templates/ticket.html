@@ -19,16 +19,19 @@
       {% set auth_count = loop.index %}
       <div class="message">
         <img class="avatar" src="{{ logs.users[g.author].avatar }}" onerror="this.src='{{ url_for('static', filename='default.png') }}'">
-        <h2 class="username">{{ logs.users[g.author].username }}</h2>
+        <h2 class="username">
+          {{ logs.users[g.author].username }}
+          <span class="author_id">({{g.author}})</span>
+        </h2>
         <div class="content-container">
           {% for content in g.content %}
             {% set cont_count = loop.index %}
             <a class="content" href="#message-{{ auth_count }}-{{ cont_count }}" id="message-{{ auth_count }}-{{ cont_count }}">
-              <p class="msg">{{ content.msg }}</p>
+              <p class="msg">{{ content.msg | e }}</p>
               {% if content.attachments %}
                 {% for file in content.attachments %}
                   <div class="image-container">
-                    <img src="{{ file.content }}" alt="{{ file.filename }}">
+                    <img class="upload" src="{{ file.content }}" alt="{{ file.filename }}">
                   </div>
                 {% endfor %}
               {% endif %}
@@ -38,6 +41,14 @@
       </div>
     {% endfor %}
   </section>
+  <script>
+    let msg = document.getElementsByClassName("msg")
+    for (var i = 0; i < msg.length; i++) {
+      msg[i].innerHTML = msg[i].innerText.replace(
+        /&lt;(a?):([^:]+):(\d+)&gt;/g, (_, a, name, id) => `<img class="emoji" src="https://cdn.discordapp.com/emojis/${id}.${a ? 'gif' : 'png'}" alt="${name}"/>`
+      )
+    }
+  </script>
   <h3 class="closed-ticket">Ticket closed...</h3>
 </main>
 

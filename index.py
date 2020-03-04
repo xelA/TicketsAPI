@@ -1,6 +1,7 @@
 import json
 import time
 import os
+import html
 
 from sanic import response, Sanic
 from datetime import datetime, timedelta
@@ -43,6 +44,28 @@ async def show_ticket(request, ticket_id):
 
     valid_source = data["author_id"] == config["bot_id"]
     get_logs = json.loads(data["logs"])
+
+    # To prevent XSS, fucking hell it's shit, but I'll find a better solution later...
+    converted_logs = []
+    for msg in get_logs["messages"]:
+        temp_holder = []
+        for content in msg["content"]:
+            if content["msg"]:
+                converted_msg = html.escape(content["msg"]).encode("ascii", "xmlcharrefreplace").decode()
+            else:
+                converted_msg = None
+
+            if "attachments" in content:
+                temp_holder.append({"msg": converted_msg, "attachments": content["attachments"]})
+            else:
+                temp_holder.append({"msg": converted_msg})
+
+        converted_logs.append({
+            "author": msg["author"], "timestamp": msg["timestamp"],
+            "content": temp_holder
+        })
+
+    get_logs["messages"] = converted_logs
 
     return {
         "status": 200, "title": f"xelA Tickets: {ticket_id}", "submitted_by": data["submitted_by"],
