@@ -118,7 +118,7 @@ code {
   text-transform: none;
 }
 
-.messages .message .emoji {
+.emoji {
   height: 22px;
   object-fit: contain;
   vertical-align: bottom;
