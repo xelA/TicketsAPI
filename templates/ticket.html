@@ -28,7 +28,6 @@
             {% set cont_count = loop.index %}
             <a class="content" href="#message-{{ auth_count }}-{{ cont_count }}" id="message-{{ auth_count }}-{{ cont_count }}">
               <p class="msg">{{ content.msg }}</p>
-              <!-- {{ content.msg }} -->
               {% if content.attachments %}
                 {% for file in content.attachments %}
                   <div class="image-container">

@@ -8,6 +8,11 @@ html, body {
 h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
 img { -webkit-user-drag: none; }
 
+code {
+  background: rgba(0, 0, 0, .5);
+  padding: 3px 6px;
+}
+
 :target {
   position: relative;
 }
@@ -172,11 +177,19 @@ img { -webkit-user-drag: none; }
   animation: background-pulse 5s ease-in-out infinite;
   background: #181818;
   display: flex;
-  font-size: 32px;
+  font-size: 22px;
   height: 100%;
+  flex-direction: column;
   justify-content: center;
   letter-spacing: 1px;
   width: 100%;
+}
+
+.intro-container .text { margin: .25em 0; }
+.intro-container .title {
+  margin: .1em 0;
+  font-size: 32px;
+  letter-spacing: 1px;
 }
 
 @keyframes background-pulse {
