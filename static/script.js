@@ -2,12 +2,14 @@ window.onload = function() {
   // Replace all emojis to <img>
   let msg = document.getElementsByClassName("msg")
   for (var i = 0; i < msg.length; i++) {
-    msg[i].innerHTML = msg[i].innerHTML.replace(
-      /&lt;(a?):([^:]+):(\d+)&gt;/g, (_, a, name, id) => `<img class="emoji" src="https://cdn.discordapp.com/emojis/${id}.${a ? 'gif' : 'png'}" alt="${name}"/>`
-    )
-
+    // Find links
     msg[i].innerHTML = msg[i].innerHTML.replace(
       /((http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)/ig, (_, url) => `<a class="link" href="${url}" target="_blank">${url}</a>`
+    )
+
+    // Find Discord emojis
+    msg[i].innerHTML = msg[i].innerHTML.replace(
+      /&lt;(a?):([^:]+):(\d+)&gt;/g, (_, a, name, id) => `<img class="emoji" src="https://cdn.discordapp.com/emojis/${id}.${a ? 'gif' : 'png'}" alt="${name}"/>`
     )
   }
 
