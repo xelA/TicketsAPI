@@ -27,11 +27,12 @@
           {% for content in g.content %}
             {% set cont_count = loop.index %}
             <a class="content" href="#message-{{ auth_count }}-{{ cont_count }}" id="message-{{ auth_count }}-{{ cont_count }}">
-              <p class="msg">{{ content.msg | e }}</p>
+              <p class="msg">{{ content.msg }}</p>
+              <!-- {{ content.msg }} -->
               {% if content.attachments %}
                 {% for file in content.attachments %}
                   <div class="image-container">
-                    <img class="upload" src="{{ file.content }}" alt="{{ file.filename }}">
+                    <img class="upload" src="{{ file.content }}" alt="{{ file.filename }}" data-enlargable>
                   </div>
                 {% endfor %}
               {% endif %}
@@ -41,14 +42,14 @@
       </div>
     {% endfor %}
   </section>
-  <script>
-    let msg = document.getElementsByClassName("msg")
-    for (var i = 0; i < msg.length; i++) {
-      msg[i].innerHTML = msg[i].innerText.replace(
-        /&lt;(a?):([^:]+):(\d+)&gt;/g, (_, a, name, id) => `<img class="emoji" src="https://cdn.discordapp.com/emojis/${id}.${a ? 'gif' : 'png'}" alt="${name}"/>`
-      )
-    }
-  </script>
+
+  <div id='modal' class='modal-container'>
+    <div class='inner img-enlarge' id='enlarge' style='display: none'>
+      <img src='' alt=''/>
+      <a href='' target='_blank'>Open Original</a>
+    </div>
+  </div>
+
   <h3 class="closed-ticket">Ticket closed...</h3>
 </main>
 
