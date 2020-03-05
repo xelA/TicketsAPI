@@ -5,6 +5,10 @@ window.onload = function() {
     msg[i].innerHTML = msg[i].innerHTML.replace(
       /&lt;(a?):([^:]+):(\d+)&gt;/g, (_, a, name, id) => `<img class="emoji" src="https://cdn.discordapp.com/emojis/${id}.${a ? 'gif' : 'png'}" alt="${name}"/>`
     )
+
+    msg[i].innerHTML = msg[i].innerHTML.replace(
+      /((http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)/ig, (_, url) => `<a class="link" href="${url}" target="_blank">${url}</a>`
+    )
   }
 
   // Enlarge images

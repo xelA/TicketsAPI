@@ -46,6 +46,10 @@ code {
   color: #ccc;
 }
 
+.link {
+  color: #3498db;
+}
+
 .messages {
   display: flex;
   flex-direction: column;
