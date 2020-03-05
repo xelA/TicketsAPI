@@ -54,7 +54,7 @@
 
 {% else %}
 <div class="nothing-found">
-  <h1>Nothing found on <b class="code">{{ code }}</b>...</h1>
+  <h1>Nothing found on <b class="code">{{ code | e }}</b>...</h1>
 </div>
 {% endif %}
 {% endblock %}

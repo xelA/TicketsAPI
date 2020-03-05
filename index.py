@@ -33,7 +33,7 @@ def delete_old_tickets(app):
     db.execute("DELETE FROM tickets WHERE ? > expire", (int(time.time()),))
 
 
-@app.route("/<ticket_id>")
+@app.route("/<ticket_id:string>")
 @jinja.template("ticket.html")
 async def show_ticket(request, ticket_id):
     ticket_db = tickets.Ticket(db=db)
