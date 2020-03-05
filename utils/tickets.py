@@ -80,7 +80,7 @@ class Ticket:
                             "type": "object",
                             "properties": {
                                 "username": {"type": "string"},
-                                "avatar": {"type": "string"},
+                                "avatar": {"anyOf": [{"type": "string"}, {"type": "null"}]},
                                 "badge": {"anyOf": [{"type": "string"}, {"type": "null"}]}
                             },
                             "required": ["username", "avatar", "badge"]
