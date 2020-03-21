@@ -70,8 +70,14 @@ code {
   padding: 1em 2em;
 }
 
+.context-flex {
+  display: flex;
+  flex-direction: row;
+}
+
 .context .author, .context .context-ticket {
   margin: 0;
+  white-space: pre-wrap;
 }
 
 .messages .message .content .upload {

@@ -11,7 +11,10 @@
   <section class="context-container">
     <div class="context">
       <p class="author"><b>Ticket author:</b> {% if logs.users[author_id] %}{{ logs.users[author_id].username }}{% else %}{{ author_id }}{% endif %}</p>
-      <p class="context-ticket" id="context"><b>Context:</b> {{ context }}</p>
+      <div class="context-flex">
+        <p class="context-ticket"><b>Context:</b> </p>
+        <p class="context-ticket" id="context">{{ context }}</p>
+      </div>
     </div>
   </section>
   <section class="messages">
