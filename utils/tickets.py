@@ -39,8 +39,8 @@ class Ticket:
             return (code, output)
 
         query = "INSERT INTO tickets " \
-                "(ticket_id, guild_id, author_id, context, submitted_by, created_at, logs, expire) " \
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                "(ticket_id, guild_id, author_id, context, submitted_by, created_at, logs, expire, confirmed_by) " \
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
         right_now = int(time.time())
         ticket_id = self.generate_id
@@ -48,7 +48,7 @@ class Ticket:
         try:
             self.db.execute(
                 query, (ticket_id, int(output["guild_id"]), int(output["author_id"]), output["context"],
-                int(output["submitted_by"]), right_now, json.dumps(output), right_now + self.expire)
+                int(output["submitted_by"]), right_now, json.dumps(output), right_now + self.expire, int(output["confirmed_by"]))
             )
         except Exception as e:
             print(e)
