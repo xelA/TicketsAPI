@@ -11,6 +11,7 @@
   <section class="context-container">
     <div class="context">
       <p class="author"><b>Ticket author:</b> {% if logs.users[author_id] %}{{ logs.users[author_id].username }}{% else %}{{ author_id }}{% endif %}</p>
+      <p class="confirmed_author"><b>Confirmed by:</b> {% if logs.users[confirmed_by] %}{{ logs.users[confirmed_by].username }}{% else %}{{ confirmed_by }}{% endif %}</p>
       <div class="context-flex">
         <p class="context-ticket"><b>Context:</b> </p>
         <p class="context-ticket" id="context">{{ context }}</p>

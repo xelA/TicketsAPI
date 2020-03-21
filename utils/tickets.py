@@ -110,6 +110,7 @@ class Ticket:
                 "context": {"type": "string"},
                 "channel_name": {"type": "string"},
                 "submitted_by": {"type": "string", "pattern": self.re_discord_id},
+                "confirmed_by": {"type": "string", "pattern": self.re_discord_id},
                 "author_id": {"type": "string", "pattern": self.re_discord_id},
                 "guild_id": {"type": "string", "pattern": self.re_discord_id},
                 "users": {"$ref": "#/definitions/users_entry"},
@@ -118,7 +119,7 @@ class Ticket:
                     "items": {"$ref": "#/definitions/messages"}
                 }
             },
-            "required": ["channel_name", "guild_id", "author_id", "users", "messages", "submitted_by", "context"]
+            "required": ["channel_name", "guild_id", "author_id", "users", "messages", "submitted_by", "context", "confirmed_by"]
         }
 
         try:

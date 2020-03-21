@@ -70,7 +70,7 @@ async def show_ticket(request, ticket_id):
     return {
         "status": 200, "title": f"xelA Tickets: {ticket_id}", "submitted_by": data["submitted_by"],
         "ticket_id": data["ticket_id"], "guild_id": data["guild_id"], "author_id": str(data["author_id"]),
-        "created_at": datetime.fromtimestamp(data["created_at"]).strftime("%d %B %Y %H:%S"),
+        "created_at": datetime.fromtimestamp(data["created_at"]).strftime("%d %B %Y %H:%S"), "confirmed_by": str(data["confirmed_by"]),
         "expires": datetime.fromtimestamp(data["expire"]).strftime("%d %B %Y %H:%S"), "context": data["context"],
         "channel_name": get_logs["channel_name"], "valid_source": valid_source, "logs": get_logs
     }

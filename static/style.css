@@ -75,7 +75,7 @@ code {
   flex-direction: row;
 }
 
-.context .author, .context .context-ticket {
+.context .author, .context .context-ticket, .context .confirmed_author {
   margin: 0;
   white-space: pre-wrap;
 }
