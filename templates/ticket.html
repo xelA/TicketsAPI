@@ -25,6 +25,7 @@
         <img class="avatar" src="{{ logs.users[g.author].avatar }}" onerror="this.src='{{ url_for('static', filename='default.png') }}'">
         <h2 class="username">
           {{ logs.users[g.author].username }}
+          {% if logs.users[g.author]['bot'] %}<span class="bot_tag">Bot</span>{% endif %}
           <span class="author_id">({{g.author}})</span>
         </h2>
         <div class="content-container">

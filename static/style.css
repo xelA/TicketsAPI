@@ -41,6 +41,22 @@ code {
 .channel-title .name { margin-left: .25em; }
 .channel-title .expire { margin-left: .5em; }
 
+.bot_tag {
+  -ms-flex-negative: 0;
+  background: #7289da;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #fff;
+  flex-shrink: 0;
+  font-weight: 800;
+  height: 1.28em;
+  line-height: 1.3;
+  margin-top: .075em;
+  padding: .072rem .275rem;
+  text-transform: uppercase;
+  vertical-align: top;
+}
+
 .channel-title svg, .channel-title .name {
   fill: #ccc;
   color: #ccc;
