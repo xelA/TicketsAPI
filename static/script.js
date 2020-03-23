@@ -41,8 +41,11 @@ window.onload = function() {
   enlarge.querySelector('img').addEventListener('click', e => e.stopPropagation())
   document.querySelectorAll('[data-enlargable]').forEach(el => {
     el.addEventListener('click', () => {
-      enlarge.querySelector('img').src = el.src
       enlarge.querySelector('a').href = el.src
+      let target_image = enlarge.querySelector('img')
+      target_image.src = el.src
+      target_image.style.maxWidth = window.innerWidth - 200
+      target_image.style.maxHeight = window.innerHeight - 200
       openModal('enlarge')
     })
   })

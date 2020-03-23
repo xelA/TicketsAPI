@@ -34,7 +34,6 @@
   flex-direction: column;
 }
 .modal-container .img-enlarge img {
-  max-height: 680px;
   object-fit: contain;
 }
 .modal-container .img-enlarge a {
