@@ -1,19 +1,24 @@
 import json
 import time
 import os
+import markdown
 import html
+import jinja2 as jinja2_original
 
 from sanic import response, Sanic
 from datetime import datetime, timedelta
 from sanic_jinja2 import SanicJinja2
 from sanic_scheduler import SanicScheduler, task
-from utils import sqlite, tickets
+from utils import sqlite, tickets, markdown_extensions
 
 app = Sanic()
 app.static('/static', './static')
 
 scheduler = SanicScheduler(app)
 jinja = SanicJinja2(app)
+
+md = markdown.Markdown(extensions=[markdown_extensions.TicketsExtension()])
+jinja.env.filters['markdown'] = lambda text: jinja2_original.Markup(md.convert(text))
 
 db = sqlite.Database()
 db.create_tables()  # Attempt to create table(s) if not exists already.

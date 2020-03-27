@@ -1,3 +1,4 @@
+markdown
 sanic
 sanic-jinja2
 sanic-scheduler

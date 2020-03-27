@@ -132,7 +132,7 @@ code {
   margin: 0;
 }
 
-.messages .message .msg {
+.messages .message .content .msg {
   margin: 0;
   font-size: 16px;
   color: #ccc;

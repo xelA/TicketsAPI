@@ -32,7 +32,7 @@
           {% for content in g.content %}
             {% set cont_count = loop.index %}
             <a class="content" href="#message-{{ auth_count }}-{{ cont_count }}" id="message-{{ auth_count }}-{{ cont_count }}">
-              {% if content.msg %}<p class="msg">{{ content.msg }}</p>{% endif %}
+              {% if content.msg %}{{ content.msg | markdown }}{% endif %}
               {% if content.attachments %}
                 {% for file in content.attachments %}
                   <div class="image-container">
