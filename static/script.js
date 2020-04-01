@@ -1,22 +1,35 @@
-function replace_texts(e) {
-  // Find links
-  e.innerHTML = e.innerHTML.replace(
-    /((http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)/ig, (_, url) => `<a class="link" href="${url}" target="_blank">${url}</a>`
-  )
+function unix_to_timestamp(e) {
+  let unix = parseInt(e.innerText)
+  let date = new Date(unix * 1000)
+  let months_arr = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ]
 
-  // Find Discord emojis
-  e.innerHTML = e.innerHTML.replace(
-    /&lt;(a?):([^:]+):(\d+)&gt;/g, (_, a, name, id) => `<img class="emoji" src="https://cdn.discordapp.com/emojis/${id}.${a ? 'gif' : 'png'}" alt="${name}"/>`
-  )
+  let day = date.getDate()
+  let month = months_arr[date.getMonth()]
+  let year = date.getFullYear()
+
+  let hours = date.getHours()
+  let minutes = date.getMinutes()
+  let seconds = date.getSeconds()
+
+  const converted_date = `${day}. ${month} ${year}, ${hours}:${minutes}`
+
+  e.innerText = converted_date
+
+  return converted_date
 }
 
 window.onload = function() {
-  // Replace all emojis to <img>
-  let msg = document.getElementsByClassName("msg")
-  let context = document.getElementById("context")
+  // Make all timestamps
+  let timestamps = document.getElementsByClassName("timestamp")
+  for (var i = 0; i < timestamps.length; i++) {
+    let converted_date = unix_to_timestamp(timestamps[i])
+  }
 
-  for (var i = 0; i < msg.length; i++) { replace_texts(msg[i]) }
-  replace_texts(context)
+  unix_to_timestamp(document.getElementById("expire_date"))
+  unix_to_timestamp(document.getElementById("created_at"))
 
   // Enlarge images
   const modal = document.getElementById('modal')

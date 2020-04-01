@@ -6,24 +6,29 @@ import html
 import jinja2 as jinja2_original
 
 from sanic import response, Sanic
-from datetime import datetime, timedelta
+from datetime import timedelta
 from sanic_jinja2 import SanicJinja2
 from sanic_scheduler import SanicScheduler, task
-from utils import sqlite, tickets, markdown_extensions
+from utils import sqlite, tickets, jinja_filters
 
+# Sanic itself
 app = Sanic()
 app.static('/static', './static')
 
+# Sanic plugins
 scheduler = SanicScheduler(app)
 jinja = SanicJinja2(app)
 
-md = markdown.Markdown(extensions=[markdown_extensions.TicketsExtension()])
-jinja.env.filters['markdown'] = lambda text: jinja2_original.Markup(md.convert(text))
-
+# General configs
 db = sqlite.Database()
 db.create_tables()  # Attempt to create table(s) if not exists already.
-
 config = json.load(open("config.json", "r"))
+md = markdown.Markdown(extensions=["meta"])
+
+# Jinja2 template filters
+jinja.env.filters["markdown"] = lambda text: jinja2_original.Markup(md.convert(text))
+jinja.env.filters["discord_to_html"] = lambda text: jinja_filters.discord_to_html(text)
+jinja.env.filters["find_url"] = lambda text: jinja_filters.match_url(text)
 
 
 @app.route("/")
@@ -75,8 +80,8 @@ async def show_ticket(request, ticket_id):
     return {
         "status": 200, "title": f"xelA Tickets: {ticket_id}", "submitted_by": data["submitted_by"],
         "ticket_id": data["ticket_id"], "guild_id": data["guild_id"], "author_id": str(data["author_id"]),
-        "created_at": datetime.fromtimestamp(data["created_at"]).strftime("%d %B %Y %H:%S"), "confirmed_by": str(data["confirmed_by"]),
-        "expires": datetime.fromtimestamp(data["expire"]).strftime("%d %B %Y %H:%S"), "context": data["context"],
+        "created_at": data["created_at"], "confirmed_by": str(data["confirmed_by"]),
+        "expires": data["expire"], "context": data["context"],
         "channel_name": get_logs["channel_name"], "valid_source": valid_source, "logs": get_logs
     }
 

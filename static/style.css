@@ -13,6 +13,23 @@ code {
   padding: 3px 6px;
 }
 
+.highlight {
+  background-color: #181818;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  margin: 0;
+  overflow: auto;
+  padding: 8px;
+  word-break: normal;
+}
+
+.highlight code {
+  background: transparent;
+  font-size: 14px;
+  padding: 0;
+}
+
 :target {
   position: relative;
 }
@@ -39,9 +56,13 @@ code {
 }
 
 .channel-title .name { margin-left: .25em; }
-.channel-title .expire { margin-left: .5em; }
+.channel-title .expire {
+  margin-left: .5em;
+  font-weight: normal;
+  font-size: 16px;
+}
 
-.bot_tag {
+.tag {
   -ms-flex-negative: 0;
   background: #7289da;
   font-size: 12px;
@@ -55,6 +76,12 @@ code {
   padding: .072rem .275rem;
   text-transform: uppercase;
   vertical-align: top;
+}
+
+.bot { background: #7289da; }
+.staff {
+  background: #f1c40f;
+  color: #000;
 }
 
 .channel-title svg, .channel-title .name {
@@ -91,7 +118,7 @@ code {
   flex-direction: row;
 }
 
-.context .author, .context .context-ticket, .context .confirmed_author {
+.context .author, .context .context-ticket, .context .confirmed_author, .context .created_at {
   margin: 0;
   white-space: pre-wrap;
 }
@@ -117,6 +144,14 @@ code {
   letter-spacing: 0;
 }
 
+.timestamp {
+  font-size: 0.75rem;
+  color: #ccc;
+  font-weight: normal;
+  vertical-align: baseline;
+  margin-left: .25rem;
+}
+
 .messages .message .avatar {
   width: 40px;
   height: 40px;
@@ -126,13 +161,13 @@ code {
 }
 
 .messages .message .username {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
   margin: 0;
 }
 
-.messages .message .content .msg {
+.messages .message .content p {
   margin: 0;
   font-size: 16px;
   color: #ccc;
