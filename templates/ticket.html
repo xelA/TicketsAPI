@@ -22,7 +22,7 @@
   <section class="messages">
     {% for g in logs.messages %}
       {% set auth_count = loop.index %}
-      <div class="message">
+      <div class="message {% if g.author == official_bot %}system{% endif %}">
         <img class="avatar" src="{{ logs.users[g.author].avatar }}" onerror="this.src='{{ url_for('static', filename='default.png') }}'">
         <h2 class="username">
           {{ logs.users[g.author].username }}
@@ -31,14 +31,13 @@
           {% elif logs.users[g.author]['bot'] %}
             <span class="tag bot">Bot</span>
           {% endif %}
-          <!-- AuthorID: {{g.author}} -->
           <span class="timestamp">{{ g.timestamp }}</span>
         </h2>
         <div class="content-container">
           {% for content in g.content %}
             {% set cont_count = loop.index %}
             <span class="content" id="message-{{ auth_count }}-{{ cont_count }}" onclick="location.hash = this.getAttribute('id')">
-              {% if content.msg %}{{ content.msg | discord_to_html | markdown }}{% endif %}
+              {% if content.msg %}{{ content.msg | find_url | discord_to_html | markdown }}{% endif %}
               {% if content.attachments %}
                 {% for file in content.attachments %}
                   <div class="image-container">

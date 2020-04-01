@@ -1,0 +1,36 @@
+.channel-title {
+  align-items: center;
+  background-color: #181818;
+  display: flex;
+  flex-direction: row;
+  height: 36px;
+  padding: .5em;
+
+  .name { margin-left: .25em; }
+  svg, .name { color: #ccc; fill: #ccc; }
+  .expire { font-size: 16px; font-weight: normal; margin-left: .5em; }
+}
+
+.context-container {
+  box-shadow: rgba(0, 0, 0, .2) 0 2px 0, rgba(0, 0, 0, .06) 0 3px 0;
+  margin-bottom: .5em;
+  width: 100%;
+
+  .context {
+    background: #282828;
+    display: block;
+    padding: 1em 2em;
+
+    .author, .context-ticket, .confirmed_author, .created_at {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+  }
+
+  .context-flex {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.author_id { font-size: 14px; font-weight: normal; }

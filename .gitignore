@@ -1,3 +1,9 @@
+# SASS stuff
+.sass-cache/
+.ropeproject/
+*.css.map
+__pycache__/
+
 # Custom
 config.json
 *.db

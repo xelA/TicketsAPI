@@ -81,7 +81,7 @@ async def show_ticket(request, ticket_id):
         "status": 200, "title": f"xelA Tickets: {ticket_id}", "submitted_by": data["submitted_by"],
         "ticket_id": data["ticket_id"], "guild_id": data["guild_id"], "author_id": str(data["author_id"]),
         "created_at": data["created_at"], "confirmed_by": str(data["confirmed_by"]),
-        "expires": data["expire"], "context": data["context"],
+        "expires": data["expire"], "context": data["context"], "official_bot": config["bot_id"],
         "channel_name": get_logs["channel_name"], "valid_source": valid_source, "logs": get_logs
     }
 

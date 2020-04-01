@@ -10,9 +10,9 @@ function unix_to_timestamp(e) {
   let month = months_arr[date.getMonth()]
   let year = date.getFullYear()
 
-  let hours = date.getHours()
-  let minutes = date.getMinutes()
-  let seconds = date.getSeconds()
+  let hours = ("0" + date.getHours()).slice(-2)
+  let minutes = ("0" + date.getMinutes()).slice(-2)
+  let seconds = ("0" + date.getSeconds()).slice(-2)
 
   const converted_date = `${day}. ${month} ${year}, ${hours}:${minutes}`
 
