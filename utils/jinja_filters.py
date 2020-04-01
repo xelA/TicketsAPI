@@ -9,7 +9,6 @@ discord_regex_to_html = [
 
 def discord_to_html(input):
     temp_text = input
-    print(f"- {temp_text}")
 
     for reg, result in discord_regex_to_html:
         new_data = re.sub(reg, result, temp_text)
