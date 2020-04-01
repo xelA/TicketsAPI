@@ -7,6 +7,23 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}" type="text/javascript" charset="utf-8"></script>
+
+    <meta name="theme-color" content="#14bae4">
+    <meta content="https://tickets.xela.dev/static/images/favicon.png" property="og:image" />
+    <link rel="icon" type="image/x-icon" href="https://tickets.xela.dev/static/images/favicon.png">
+
+    {% block meta %}{% endblock %}
+
+    <meta name="revisit-after" content="2 days">
+    <meta name="keywords" content="AlexFlipnote, Twitter, Developer, Github, xelA, Tickets, API">
+
+    <meta property="og:locale" content="en_GB" />
+    <link rel="canonical" href="https://tickets.xela.dev/" />
+    <meta property="og:url" content="https://tickets.xela.dev/" />
+    <meta property="og:site_name" content="xelA TicketsAPI" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@AlexFlipnote" />
   </head>
   <body>
     {% block content %}{% endblock %}

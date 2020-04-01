@@ -1,4 +1,11 @@
 {% extends "_layout.html" %}
+
+{% block meta %}
+<meta content="#{{ channel_name }}" property="og:title" />
+<meta content="{{ context }}" name="description" />
+<meta content="{{ context }}" property="og:description" />
+{% endblock %}
+
 {% block content %}
 {% if status == 200 %}
 
@@ -23,7 +30,7 @@
     {% for g in logs.messages %}
       {% set auth_count = loop.index %}
       <div class="message {% if g.author == official_bot %}system{% endif %}">
-        <img class="avatar" src="{{ logs.users[g.author].avatar }}" onerror="this.src='{{ url_for('static', filename='default.png') }}'">
+        <img class="avatar" src="{{ logs.users[g.author].avatar }}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'">
         <h2 class="username">
           {{ logs.users[g.author].username }}
           {% if logs.users[g.author]['badge'] %}

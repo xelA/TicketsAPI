@@ -119,8 +119,8 @@
   margin-top: .075em;
   padding: .072rem .275rem;
   text-transform: uppercase;
-  vertical-align: middle;
+  vertical-align: text-top;
 
-  .bot { background: #7289da; }
-  .staff { background: #f1c40f; color: #000; }
+  &.bot { background: #7289da; letter-spacing: 1px; }
+  &.staff { background: #f1c40f; color: #000; }
 }
