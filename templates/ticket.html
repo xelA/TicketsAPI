@@ -2,6 +2,7 @@
 
 {% block meta %}
 <meta content="#{{ channel_name }}" property="og:title" />
+<meta property="og:site_name" content="{% if logs.users[author_id] %}{{ logs.users[author_id].username }}{% else %}{{ author_id }}{% endif %}" />
 <meta content="{{ context }}" name="description" />
 <meta content="{{ context }}" property="og:description" />
 {% endblock %}
