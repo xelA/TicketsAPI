@@ -32,6 +32,40 @@
     font-weight: normal;
     line-height: 1;
   }
+
+  .download {
+    position: absolute;
+    right: 1.25em;
+    top: .55em;
+
+    svg {
+      height: 32px;
+      width: 32px;
+      &:hover { fill: #7a7a7a; }
+    }
+  }
+}
+
+.unknown_source {
+  align-items: center;
+  background-color: #e74c3c;
+  display: flex;
+  height: 2em;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+
+  p {
+    display: inline-block;
+    line-height: 1;
+    margin: 0;
+  }
+
+  &.approved {
+    background-color: #f1c40f;
+    padding-bottom: .25em;
+    b, p { color: #000; }
+  }
 }
 
 .context-container {

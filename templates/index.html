@@ -9,11 +9,17 @@
 
 {% block content %}
 <section class="intro-container">
-  <h4 class="title">TicketsAPI Docs</h4>
+  <h1 class="title">TicketsAPI Docs</h1>
   <p class="text">POST: <code>https://tickets.xela.dev/submit</code></p>
-  <p class="text">Headers: <code>Authorization: &lt;token&gt;</code></p>
+  <p class="text">Headers (optional): <code>Authorization: &lt;token&gt;</code></p>
   <p class="text">
-    JSON/data: <a href="https://github.com/xelA/TicketsAPI/blob/master/examples/submit.json" target="_blank">example</a>
+    JSON/data: <a href="/submit/example" target="_blank">example</a>
   </p>
+  <div class="line-splitter"></div>
+  <h3 class="title">...or upload JSON logs</h3>
+  <form action="/submit" method="post" enctype="multipart/form-data">
+    <input type="file" id="ticket_file" name="ticket_file" accept=".json">
+    <input type="submit" name="submit">
+  </form>
 </section>
 {% endblock %}

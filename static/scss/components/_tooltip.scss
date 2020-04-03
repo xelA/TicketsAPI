@@ -1,0 +1,56 @@
+$cubic: cubic-bezier(.64, .09, .08, 1);
+
+.tooltip {
+  display: inline;
+  position: relative;
+
+  &::after {
+    background: #282828;
+    border-radius: 2px;
+    color: #fff;
+    content: attr(data-tooltip);
+    left: 50%;
+    opacity: 0;
+    padding: 6px 10px;
+    position: absolute;
+    top: 1.6em;
+    transform: translateX(-50%) translateY(-2px);
+    transition: opacity .2s $cubic, transform .2s $cubic;
+    visibility: hidden;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  &:hover {
+    &::after {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      visibility: visible;
+    }
+  }
+
+  &.left {
+    &::after {
+      left: 0;
+      top: 0;
+      transform: translateX(-112%) translateY(0);
+    }
+
+    &:hover {
+      &::after { transform: translateX(-110%) translateY(0); }
+    }
+  }
+
+  &.right {
+    &::after {
+      left: 100%;
+      top: 0;
+      transform: translateX(12%) translateY(0);
+    }
+
+    &:hover {
+      &::after { transform: translateX(10%) translateY(0); }
+    }
+  }
+}

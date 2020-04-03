@@ -52,7 +52,15 @@ code { background: rgba(0, 0, 0, .5); padding: 3px 6px; }
   width: 100%;
 
   .text { margin: .25em 0; }
-  .title { font-size: 32px; margin: .1em 0; }
+  .title { margin: .1em 0; }
+}
+
+.line-splitter {
+  background: rgba(#fff, .5);
+  height: 3px;
+  margin: 0 auto;
+  margin-top: .5em;
+  width: 80%;
 }
 
 .emoji {

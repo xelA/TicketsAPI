@@ -1,8 +1,15 @@
 import time
 import secrets
+import enum
 import json
 
 from jsonschema import validate
+
+
+class TicketSource(enum.IntEnum):
+    unknown = 0
+    valid = 1
+    approved = 2
 
 
 class Ticket:
