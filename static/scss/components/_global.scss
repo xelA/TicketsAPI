@@ -55,6 +55,13 @@ code { background: rgba(0, 0, 0, .5); padding: 3px 6px; }
   .title { font-size: 32px; margin: .1em 0; }
 }
 
+.emoji {
+  height: 22px;
+  object-fit: contain;
+  vertical-align: bottom;
+  width: 22px;
+}
+
 // Keyframes
 @keyframes background-pulse {
   0% { background: #181818; }

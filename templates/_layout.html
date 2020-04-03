@@ -12,6 +12,9 @@
     <meta content="https://tickets.xela.dev/static/images/favicon.png" property="og:image" />
     <link rel="icon" type="image/x-icon" href="https://tickets.xela.dev/static/images/favicon.png">
 
+    <!-- Twemoji, yes -->
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+
     {% block meta %}{% endblock %}
 
     <meta name="revisit-after" content="2 days">
@@ -26,5 +29,6 @@
   </head>
   <body>
     {% block content %}{% endblock %}
+    <script>twemoji.parse(document.body) // Add twemoji support </script>
   </body>
 </html>
