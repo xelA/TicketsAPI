@@ -23,7 +23,6 @@ jinja = SanicJinja2(app)
 db = sqlite.Database()
 db.create_tables()  # Attempt to create table(s) if not exists already.
 config = json.load(open("config.json", "r"))
-valid_tokens = json.load(open("tokens.json"))
 md = markdown.Markdown(extensions=["meta"])
 
 # Jinja2 template filters
@@ -49,22 +48,14 @@ def delete_old_tickets(app):
 async def show_ticket(request, ticket_id):
     ticket_db = tickets.Ticket(db=db)
     data = ticket_db.fetch_ticket(ticket_id)
-    get_valid_source = next((g for g in valid_tokens if str(data["submitted_by"]) == g), None)
 
     if not data:
         return {"status": 404, "code": ticket_id}
 
-    source_name = None
     if str(data["submitted_by"]) == str(config["bot_id"]):
         valid_source = tickets.TicketSource.valid
-        official_bot = config["bot_id"]
-    elif get_valid_source:
-        valid_source = tickets.TicketSource.approved
-        official_bot = get_valid_source
-        source_name = valid_tokens[get_valid_source]["author"]
     else:
         valid_source = tickets.TicketSource.unknown
-        official_bot = config["bot_id"]
 
     get_logs = json.loads(data["logs"])
 
@@ -94,8 +85,7 @@ async def show_ticket(request, ticket_id):
         "status": 200, "title": f"#{get_logs['channel_name']} | xelA Tickets", "submitted_by": data["submitted_by"],
         "ticket_id": data["ticket_id"], "guild_id": data["guild_id"], "author_id": str(data["author_id"]),
         "created_at": data["created_at"], "confirmed_by": str(data["confirmed_by"]),
-        "source_name": source_name,
-        "expires": data["expire"], "context": data["context"], "official_bot": official_bot,
+        "expires": data["expire"], "context": data["context"], "official_bot": config["bot_id"],
         "channel_name": get_logs["channel_name"], "valid_source": valid_source, "logs": get_logs
     }
 
@@ -144,20 +134,11 @@ async def submit(request):
     if "submitted_by" not in post_data:
         return response.json({"status": 400, "message": "Missing 'submitted_by' in JSON"}, status=400)
 
-    valid_submitter = next((valid_tokens[g] for g in valid_tokens if g == str(post_data["submitted_by"])), None)
-
-    if post_data["submitted_by"] == config["bot_id"] or valid_submitter:
+    if post_data["submitted_by"] == config["bot_id"]:
         if not token:
             return response.json({"status": 400, "message": "Missing Authorization headers"}, status=400)
-
-        # Check if token is xelA
-        if post_data["submitted_by"] == config["bot_id"]:
-            if token != config["token"]:
-                return response.json({"status": 403, "message": "Invalid Authorization token..."}, status=403)
-        # Check if token is approved sender
-        if valid_submitter:
-            if token != valid_submitter["token"]:
-                return response.json({"status": 403, "message": "Invalid Authorization token..."}, status=403)
+        if token != config["token"]:
+            return response.json({"status": 403, "message": "Invalid Authorization token..."}, status=403)
 
     make_ticket = tickets.Ticket(payload=post_data, db=db)
     code, data = make_ticket.attempt_post()
