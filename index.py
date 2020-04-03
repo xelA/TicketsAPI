@@ -49,7 +49,6 @@ def delete_old_tickets(app):
 async def show_ticket(request, ticket_id):
     ticket_db = tickets.Ticket(db=db)
     data = ticket_db.fetch_ticket(ticket_id)
-    print(data["submitted_by"])
     get_valid_source = next((g for g in valid_tokens if str(data["submitted_by"]) == g), None)
 
     if not data:
