@@ -78,7 +78,7 @@ async def show_ticket(request, ticket_id):
     get_logs["messages"] = converted_logs
 
     return {
-        "status": 200, "title": f"xelA Tickets: {ticket_id}", "submitted_by": data["submitted_by"],
+        "status": 200, "title": f"#{get_logs['channel_name']} | xelA Tickets", "submitted_by": data["submitted_by"],
         "ticket_id": data["ticket_id"], "guild_id": data["guild_id"], "author_id": str(data["author_id"]),
         "created_at": data["created_at"], "confirmed_by": str(data["confirmed_by"]),
         "expires": data["expire"], "context": data["context"], "official_bot": config["bot_id"],
