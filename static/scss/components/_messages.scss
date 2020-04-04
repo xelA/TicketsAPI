@@ -75,6 +75,17 @@
         width: 100%;
       }
 
+      .file-container {
+        z-index: 100000;
+
+        a {
+          background: #181818;
+          border-radius: 5px;
+          display: table;
+          padding: .5em 1em;
+        }
+      }
+
       .upload {
         cursor: pointer;
         display: grid;

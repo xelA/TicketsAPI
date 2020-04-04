@@ -60,9 +60,7 @@
               {% if content.msg %}{{ content.msg | find_url | discord_to_html | markdown }}{% endif %}
               {% if content.attachments %}
                 {% for file in content.attachments %}
-                  <div class="image-container">
-                    <img class="upload" src="{{ file.content }}" alt="{{ file.filename }}" data-enlargable>
-                  </div>
+                  {{ file | detect_file }}
                 {% endfor %}
               {% endif %}
             </span>

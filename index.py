@@ -29,6 +29,7 @@ md = markdown.Markdown(extensions=["meta"])
 jinja.env.filters["markdown"] = lambda text: jinja2_original.Markup(md.convert(text))
 jinja.env.filters["discord_to_html"] = lambda text: jinja_filters.discord_to_html(text)
 jinja.env.filters["find_url"] = lambda text: jinja_filters.match_url(text)
+jinja.env.filters["detect_file"] = lambda file: jinja_filters.detect_file(file)
 
 
 @app.route("/")
