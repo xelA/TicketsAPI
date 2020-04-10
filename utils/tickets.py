@@ -55,7 +55,7 @@ class Ticket:
         try:
             self.db.execute(
                 query, (ticket_id, int(output["guild_id"]), int(output["author_id"]), output["context"],
-                int(output["submitted_by"]), right_now, json.dumps(output), right_now + self.expire, int(output["confirmed_by"]))
+                int(output["submitted_by"]), int(output["created_at"]), json.dumps(output), right_now + self.expire, int(output["confirmed_by"]))
             )
         except Exception as e:
             print(e)
@@ -116,6 +116,7 @@ class Ticket:
             "properties": {
                 "context": {"type": "string"},
                 "channel_name": {"type": "string"},
+                "created_at": {"type": "number", "minimum": 0},
                 "submitted_by": {"type": "string", "pattern": self.re_discord_id},
                 "confirmed_by": {"type": "string", "pattern": self.re_discord_id},
                 "author_id": {"type": "string", "pattern": self.re_discord_id},
@@ -126,7 +127,7 @@ class Ticket:
                     "items": {"$ref": "#/definitions/messages"}
                 }
             },
-            "required": ["channel_name", "guild_id", "author_id", "users", "messages", "submitted_by", "context", "confirmed_by"]
+            "required": ["channel_name", "guild_id", "created_at", "author_id", "users", "messages", "submitted_by", "context", "confirmed_by"]
         }
 
         try:
