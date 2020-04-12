@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" type="text/javascript" charset="utf-8"></script>
 
     <meta name="theme-color" content="#14bae4">
     <meta content="https://tickets.xela.dev/static/images/favicon.png" property="og:image" />
@@ -29,6 +29,7 @@
   </head>
   <body>
     {% block content %}{% endblock %}
-    <script>twemoji.parse(document.body) // Add twemoji support </script>
+    <script>twemoji.parse(document.body) // Add twemoji support</script>
+    {% block script %}{% endblock %}
   </body>
 </html>

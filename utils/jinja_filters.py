@@ -1,18 +1,18 @@
 import re
 
 
-discord_regex_to_html = [
-    ("(<|&lt;)(a?):([^:]+):(\d+)(&gt;|>)", lambda g: f'<img class="emoji" src="https://cdn.discordapp.com/emojis/{g.group(4)}.{"gif" if g.group(2) else "png"}" alt="{g.group(3)}"/>'),
-    ("```([a-z]*)\n([\s\S]*?)\n```", '<pre class="highlight"><code>\g<2></code></pre>')
-]
-
-
 def discord_to_html(input):
     temp_text = input
+    discord_emoji = "(<|&lt;)(a?):([^:]+):(\d+)(&gt;|>)"
 
-    for reg, result in discord_regex_to_html:
-        new_data = re.sub(reg, result, temp_text)
-        temp_text = new_data
+    test_data = re.sub(discord_emoji, "", temp_text)
+    add_jumbo = "" if test_data else " jumboable"
+
+    new_data = re.sub(discord_emoji, lambda g: f'<img class="emoji{add_jumbo}" src="https://cdn.discordapp.com/emojis/{g.group(4)}.{"gif" if g.group(2) else "png"}" alt="{g.group(3)}"/>', temp_text)
+    temp_text = new_data
+
+    new_data = re.sub("```([a-z]*)\n([\s\S]*?)\n```", '<pre class="highlight"><code>\g<2></code></pre>', temp_text)
+    temp_text = new_data
 
     return temp_text
 

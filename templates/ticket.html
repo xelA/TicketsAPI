@@ -32,14 +32,20 @@
     <div class="context">
       <p class="author"><b>Ticket author:</b> {% if logs.users[author_id] %}{{ logs.users[author_id].username }}{% else %}{{ author_id }}{% endif %}</p>
       <p class="created_at"><b>Ticket created:</b> <span id="created_at">{{ created_at }}</span></p>
-      <p class="confirmed_author"><b>Confirmed by:</b> {% if logs.users[confirmed_by] %}{{ logs.users[confirmed_by].username }}{% else %}{{ confirmed_by }}{% endif %}</p>
-      <div class="context-flex">
-        <p class="context-ticket"><b>Context:</b> </p>
-        <p class="context-ticket" id="context">{{ context }}</p>
-      </div>
+      <p class="confirmed_author"><b>Responsible staff:</b> {% if logs.users[confirmed_by] %}{{ logs.users[confirmed_by].username }}{% else %}{{ confirmed_by }}{% endif %}</p>
     </div>
   </section>
   <section class="messages">
+    <div class="message author_context">
+      <img class="avatar" src="{{ logs.users[author_id].avatar | default('invalid') }}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'">
+      <h2 class="username">
+        {% if logs.users[author_id] %}{{ logs.users[author_id].username }}{% else %}{{ author_id }}{% endif %}
+        <span class="tag context">Ticket context</span>
+      </h2>
+      <div class="content-container">
+        <span class="content"><p>{{ context }}</p></span>
+      </div>
+    </div>
     {% for g in logs.messages %}
       {% set auth_count = loop.index %}
       <div class="message {% if g.author == official_bot %}system{% endif %}">
@@ -56,7 +62,7 @@
         <div class="content-container">
           {% for content in g.content %}
             {% set cont_count = loop.index %}
-            <span class="content" id="message-{{ auth_count }}-{{ cont_count }}" onclick="location.hash = this.getAttribute('id')">
+            <span class="content" id="message-{{ auth_count }}-{{ cont_count }}" onclick="scroll_to(this.getAttribute('id'))">
               {% if content.msg %}{{ content.msg | find_url | discord_to_html | markdown }}{% endif %}
               {% if content.attachments %}
                 {% for file in content.attachments %}
@@ -88,4 +94,18 @@
   </h2>
 </div>
 {% endif %}
+{% endblock %}
+
+{% block script %}
+<script>
+  // Make normal emojis jumbo too
+  let find_contents = document.getElementsByClassName("content")
+  for (var g = 0; g < find_contents.length; g++) {
+    let new_text = find_contents[g].getElementsByTagName("p")[0].innerText.replace(" ", "")
+    let get_img = find_contents[g].getElementsByTagName("img")
+    if (new_text.length == 0) {
+      for (var emoji = 0; emoji < get_img.length; emoji++) { get_img[emoji].classList.add("jumboable") }
+    }
+  }
+</script>
 {% endblock %}

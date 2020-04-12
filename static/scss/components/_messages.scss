@@ -24,10 +24,20 @@
     padding: 0 4.5em;
     position: relative;
 
-    &.system {
-      background-color: rgba(114, 137, 218, .05);
-      border-left: 3px solid #7289da;
+    &.system, &.author_context {
+      border-left-style: solid;
+      border-left-width: 3px;
       padding: .5em 4.5em;
+    }
+
+    &.system {
+      background-color: rgba(#7289da, .05);
+      border-color: #7289da;
+    }
+
+    &.author_context {
+      background-color: rgba(#2ecc71, .05);
+      border-color: #2ecc71;
     }
 
     .username {
@@ -50,6 +60,11 @@
       object-fit: contain;
       vertical-align: bottom;
       width: 22px;
+
+      &.jumboable {
+        height: 48px;
+        width: 48px;
+      }
     }
 
     .content-container .content {
@@ -134,4 +149,5 @@
 
   &.bot { background: #7289da; letter-spacing: 1px; }
   &.staff { background: #f1c40f; color: #000; }
+  &.context { background: #2ecc71; color: #000; }
 }

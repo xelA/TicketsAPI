@@ -137,8 +137,8 @@ async def submit(request):
 
     if post_data["submitted_by"] == config["bot_id"]:
         if not token:
-            return response.json({"status": 400, "message": "Missing Authorization headers"}, status=400)
-        if token != config["token"]:
+            post_data["submitted_by"] = "86477779717066752"  # If a user is uploading the JSON file without changing submitted_by
+        if token and token != config["token"]:
             return response.json({"status": 403, "message": "Invalid Authorization token..."}, status=403)
 
     make_ticket = tickets.Ticket(payload=post_data, db=db)

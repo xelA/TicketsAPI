@@ -15,17 +15,20 @@ code { background: rgba(0, 0, 0, .5); padding: 3px 6px; }
 ::-webkit-scrollbar-thumb:active { background-color: rgba(255, 255, 255, .2); }
 ::-webkit-scrollbar-corner { background-color: #181a1b; }
 
-:target { position: relative; }
-:target::before {
-  background: rgba(250, 166, 26, .1);
-  content: ' ';
-  height: 100%;
-  left: -3px;
-  padding-bottom: 6px;
-  padding-right: 6px;
-  position: absolute;
-  top: -3px;
-  width: 100%;
+.targetted {
+  position: relative;
+
+  &::before {
+    background: rgba(250, 166, 26, .1);
+    content: ' ';
+    height: 100%;
+    left: -3px;
+    padding-bottom: 6px;
+    padding-right: 6px;
+    position: absolute;
+    top: -3px;
+    width: 100%;
+  }
 }
 
 // Main- & 404 page

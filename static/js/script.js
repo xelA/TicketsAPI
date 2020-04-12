@@ -21,6 +21,16 @@ function unix_to_timestamp(e) {
   return converted_date
 }
 
+function scroll_to(get_id) {
+  let id = get_id.replace("#", "")
+  const el = document.getElementById(id)
+  const prev = document.querySelector('.targetted')
+  if (prev) prev.classList.remove('targetted')
+  el.classList.add('targetted')
+  el.scrollIntoView({behavior: 'smooth', inline: "nearest"})
+  history.pushState(null, null, `#${id}`)
+}
+
 window.onload = function() {
   // Make all timestamps
   let timestamps = document.getElementsByClassName("timestamp")
@@ -62,4 +72,7 @@ window.onload = function() {
       openModal('enlarge')
     })
   })
+
+  // Scroll if target
+  if (location.hash) { scroll_to(location.hash) }
 }
