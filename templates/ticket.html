@@ -101,7 +101,10 @@
   // Make normal emojis jumbo too
   let find_contents = document.getElementsByClassName("content")
   for (var g = 0; g < find_contents.length; g++) {
-    let new_text = find_contents[g].getElementsByTagName("p")[0].innerText.replace(" ", "")
+    let find_p = find_contents[g].getElementsByTagName("p")
+    if (find_p.length == 0) { continue }
+
+    let new_text = find_p[0].innerText.replace(" ", "")
     let get_img = find_contents[g].getElementsByTagName("img")
     if (new_text.length == 0) {
       for (var emoji = 0; emoji < get_img.length; emoji++) { get_img[emoji].classList.add("jumboable") }
