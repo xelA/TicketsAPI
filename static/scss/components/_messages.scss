@@ -75,6 +75,7 @@
       text-transform: none;
       transition: transform 250ms ease-in-out;
       width: auto;
+      z-index: 9999999999;  // hehe, numbers go brrrr
 
       p {
         color: #ccc;
