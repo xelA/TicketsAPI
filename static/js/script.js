@@ -31,14 +31,14 @@ function scroll_to(get_id) {
   history.pushState(null, null, `#${id}`)
 }
 
-function toggle_msg(type) {
+function toggle_msg(type, target) {
   let button = document.getElementById(type).checked
-  let msg_elements = document.getElementsByClassName(type)
+  let msg_elements = document.getElementsByClassName(target)
   for (var i = 0; i < msg_elements.length; i++) {
     if (button === true) {
-      msg_elements[i].classList.add("hide")
-    } else {
       msg_elements[i].classList.remove("hide")
+    } else {
+      msg_elements[i].classList.add("hide")
     }
   }
 }

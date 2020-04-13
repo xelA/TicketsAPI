@@ -11,7 +11,7 @@ def discord_to_html(input):
     new_data = re.sub(discord_emoji, lambda g: f'<img class="emoji{add_jumbo}" src="https://cdn.discordapp.com/emojis/{g.group(4)}.{"gif" if g.group(2) else "png"}" alt="{g.group(3)}"/>', temp_text)
     temp_text = new_data
 
-    new_data = re.sub("```([a-z]*)\n([\s\S]*?)\n```", '<pre class="highlight"><code>\g<2></code></pre>', temp_text)
+    new_data = re.sub("\`\`\`([a-z]*)\n([\s\S]*?)(|\n)\`\`\`", '<pre class="highlight"><code>\g<2></code></pre>', temp_text)
     temp_text = new_data
 
     return temp_text

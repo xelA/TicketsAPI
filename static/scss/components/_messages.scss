@@ -4,11 +4,17 @@
   font-size: 85%;
   line-height: 1.45;
   margin: 0;
-  overflow: auto;
   padding: 8px;
   word-break: normal;
 
-  code { background: transparent; font-size: 14px; padding: 0; }
+  code {
+    background: transparent;
+    font-size: 14px;
+    padding: 0;
+    text-indent: 0;
+    text-size-adjust: none;
+    white-space: pre-wrap;
+  }
 }
 
 .messages {
@@ -104,7 +110,13 @@
         top: -.15em;
       }
 
-      &.hide { display: none; }
+      .edited-content {
+        &::before, &::after { color: #f1c40f; font-weight: bold; }
+        &::before { content: 'Original: '; }
+        &::after { content: 'Edited: '; }
+      }
+
+      .hide { display: none; }
 
       .file-container {
         z-index: 100000;

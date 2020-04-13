@@ -34,7 +34,7 @@
       <p class="created_at"><b>Ticket created:</b> <span id="created_at">{{ created_at }}</span></p>
       <p class="confirmed_author"><b>Responsible staff:</b> {% if logs.users[confirmed_by] %}{{ logs.users[confirmed_by].username }}{% else %}{{ confirmed_by }}{% endif %}</p>
       <div class="msg-options">
-        <label><input type="checkbox" id="deleted" onclick="toggle_msg('deleted')"/> Disable deleted msg</label>
+        <label><input type="checkbox" id="edited" onclick="toggle_msg('edited', 'edited-content')"/> Show edited messages</label>
       </div>
     </div>
   </section>
@@ -67,14 +67,21 @@
             {% set cont_count = loop.index %}
             {% set msg_to_send = content.msg %}
             <span class="content {% if content.edited %}edited{% endif %}{% if content.deleted %}deleted{% endif %}" id="message-{{ auth_count }}-{{ cont_count }}" onclick="scroll_to(this.getAttribute('id'))">
-              {% if content.edited %}{% set msg_to_send = content.edited %}{% endif %}
+              {% if content.edited %}
+                {% set msg_to_send = content.edited %}
+                <div class="edited-content tooltop hide" data-tooltip="test">
+                  {{ content.msg | safe | find_url | discord_to_html | markdown }}
+                </div>
+              {% endif %}
+
               {% if content.deleted %}
                 <div class="deleted-content tooltip" data-tooltip="This message was deleted...">
-                  {{ msg_to_send | find_url | discord_to_html | markdown }}
+                  {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
                 </div>
               {% elif content.msg %}
-                {{ msg_to_send | find_url | discord_to_html | markdown }}
+                {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
               {% endif %}
+
               {% if content.attachments %}
                 {% for file in content.attachments %}
                   {{ file | detect_file }}
