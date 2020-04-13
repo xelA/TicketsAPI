@@ -33,6 +33,9 @@
       <p class="author"><b>Ticket author:</b> {% if logs.users[author_id] %}{{ logs.users[author_id].username }}{% else %}{{ author_id }}{% endif %}</p>
       <p class="created_at"><b>Ticket created:</b> <span id="created_at">{{ created_at }}</span></p>
       <p class="confirmed_author"><b>Responsible staff:</b> {% if logs.users[confirmed_by] %}{{ logs.users[confirmed_by].username }}{% else %}{{ confirmed_by }}{% endif %}</p>
+      <div class="msg-options">
+        <label><input type="checkbox" id="deleted" onclick="toggle_msg('deleted')"/> Disable deleted msg</label>
+      </div>
     </div>
   </section>
   <section class="messages">
@@ -62,8 +65,16 @@
         <div class="content-container">
           {% for content in g.content %}
             {% set cont_count = loop.index %}
-            <span class="content" id="message-{{ auth_count }}-{{ cont_count }}" onclick="scroll_to(this.getAttribute('id'))">
-              {% if content.msg %}{{ content.msg | find_url | discord_to_html | markdown }}{% endif %}
+            {% set msg_to_send = content.msg %}
+            <span class="content {% if content.edited %}edited{% endif %}{% if content.deleted %}deleted{% endif %}" id="message-{{ auth_count }}-{{ cont_count }}" onclick="scroll_to(this.getAttribute('id'))">
+              {% if content.edited %}{% set msg_to_send = content.edited %}{% endif %}
+              {% if content.deleted %}
+                <div class="deleted-content tooltip" data-tooltip="This message was deleted...">
+                  {{ msg_to_send | find_url | discord_to_html | markdown }}
+                </div>
+              {% elif content.msg %}
+                {{ msg_to_send | find_url | discord_to_html | markdown }}
+              {% endif %}
               {% if content.attachments %}
                 {% for file in content.attachments %}
                   {{ file | detect_file }}

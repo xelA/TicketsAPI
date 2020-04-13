@@ -8,7 +8,7 @@
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 666;
+  z-index: 99999999999999999999;  // Fuck it, a lot of 9's yes
 
   &.opened {
     animation: modal1 .2s;

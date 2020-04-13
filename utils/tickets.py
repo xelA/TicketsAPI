@@ -74,6 +74,8 @@ class Ticket:
                     "type": "object",
                     "properties": {
                         "msg": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+                        "edited": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+                        "deleted": {"type": "boolean"},
                         "content": {"type": "string"}
                     },
                     "required": ["msg"]

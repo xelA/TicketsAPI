@@ -38,6 +38,7 @@
     &.author_context {
       background-color: rgba(#2ecc71, .05);
       border-color: #2ecc71;
+      .content-container .content:hover { background-color: transparent; }
     }
 
     .username {
@@ -71,6 +72,7 @@
       display: flex;
       flex-direction: column;
       padding: 2px 0;
+      position: relative;
       text-decoration: none;
       text-transform: none;
       transition: transform 250ms ease-in-out;
@@ -90,6 +92,19 @@
         position: relative;
         width: 100%;
       }
+
+      &.deleted p { color: #e74c3c; }
+      &.edited::before {
+        color: #f1c40f;
+        content: '*';
+        font-size: 22px;
+        font-weight: bold;
+        left: -.5em;
+        position: absolute;
+        top: -.15em;
+      }
+
+      &.hide { display: none; }
 
       .file-container {
         z-index: 100000;

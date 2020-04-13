@@ -90,4 +90,10 @@
   }
 }
 
+.msg-options {
+  display: flex;
+  flex-direction: column;
+  margin-top: .5em;
+}
+
 .author_id { font-size: 14px; font-weight: normal; }

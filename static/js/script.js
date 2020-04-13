@@ -31,6 +31,18 @@ function scroll_to(get_id) {
   history.pushState(null, null, `#${id}`)
 }
 
+function toggle_msg(type) {
+  let button = document.getElementById(type).checked
+  let msg_elements = document.getElementsByClassName(type)
+  for (var i = 0; i < msg_elements.length; i++) {
+    if (button === true) {
+      msg_elements[i].classList.add("hide")
+    } else {
+      msg_elements[i].classList.remove("hide")
+    }
+  }
+}
+
 window.onload = function() {
   // Make all timestamps
   let timestamps = document.getElementsByClassName("timestamp")

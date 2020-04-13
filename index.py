@@ -70,10 +70,12 @@ async def show_ticket(request, ticket_id):
             else:
                 converted_msg = None
 
-            if "attachments" in content:
-                temp_holder.append({"msg": converted_msg, "attachments": content["attachments"]})
-            else:
-                temp_holder.append({"msg": converted_msg})
+            temp_holder.append({
+                "msg": converted_msg,
+                "attachments": content["attachments"] if "attachments" in content else False,
+                "edited": content["edited"] if "edited" in content and content["edited"] else False,
+                "deleted": True if "deleted" in content and content["deleted"] else False
+            })
 
         converted_logs.append({
             "author": msg["author"], "timestamp": msg["timestamp"],
