@@ -40,7 +40,7 @@
   </section>
   <section class="messages">
     <div class="message author_context">
-      <img class="avatar" src="{{ logs.users[author_id].avatar | default('invalid') }}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'">
+      <img class="avatar" src="{% if logs.users[author_id] %}{{ logs.users[author_id].avatar }}{% endif %}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'">
       <h2 class="username">
         {% if logs.users[author_id] %}{{ logs.users[author_id].username }}{% else %}{{ author_id }}{% endif %}
         <span class="tag context">Ticket context</span>
