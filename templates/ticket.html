@@ -51,46 +51,48 @@
     </div>
     {% for g in logs.messages %}
       {% set auth_count = loop.index %}
-      <div class="message {% if g.author == official_bot %}system{% endif %}">
-        <img class="avatar" src="{{ logs.users[g.author].avatar }}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'">
-        <h2 class="username">
-          {{ logs.users[g.author].username }}
-          {% if logs.users[g.author]['badge'] %}
-            <span class="tag staff">Staff</span>
-          {% elif logs.users[g.author]['bot'] %}
-            <span class="tag bot">Bot</span>
-          {% endif %}
-          <span class="timestamp">{{ g.timestamp }}</span>
-        </h2>
-        <div class="content-container">
-          {% for content in g.content %}
-            {% set cont_count = loop.index %}
-            {% set msg_to_send = content.msg %}
-            <span class="content {% if content.edited %}edited{% endif %}{% if content.deleted %}deleted{% endif %}" id="message-{{ auth_count }}-{{ cont_count }}" onclick="scroll_to(this.getAttribute('id'))">
-              {% if content.edited %}
-                {% set msg_to_send = content.edited %}
-                <div class="edited-content tooltop hide" data-tooltip="test">
-                  {{ content.msg | safe | find_url | discord_to_html | markdown }}
-                </div>
-              {% endif %}
+      {% if g.content[0].msg != context %}
+        <div class="message {% if g.author == official_bot %}system{% endif %}">
+          <img class="avatar" src="{{ logs.users[g.author].avatar }}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'">
+          <h2 class="username">
+            {{ logs.users[g.author].username }}
+            {% if logs.users[g.author]['badge'] %}
+              <span class="tag staff">Staff</span>
+            {% elif logs.users[g.author]['bot'] %}
+              <span class="tag bot">Bot</span>
+            {% endif %}
+            <span class="timestamp">{{ g.timestamp }}</span>
+          </h2>
+          <div class="content-container">
+            {% for content in g.content %}
+              {% set cont_count = loop.index %}
+              {% set msg_to_send = content.msg %}
+              <span class="content {% if content.edited %}edited{% endif %}{% if content.deleted %}deleted{% endif %}" id="message-{{ auth_count }}-{{ cont_count }}" onclick="scroll_to(this.getAttribute('id'))">
+                {% if content.edited %}
+                  {% set msg_to_send = content.edited %}
+                  <div class="edited-content tooltop hide" data-tooltip="test">
+                    {{ content.msg | safe | find_url | discord_to_html | markdown }}
+                  </div>
+                {% endif %}
 
-              {% if content.deleted %}
-                <div class="deleted-content tooltip" data-tooltip="This message was deleted...">
+                {% if content.deleted %}
+                  <div class="deleted-content tooltip" data-tooltip="This message was deleted...">
+                    {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
+                  </div>
+                {% elif content.msg %}
                   {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
-                </div>
-              {% elif content.msg %}
-                {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
-              {% endif %}
+                {% endif %}
 
-              {% if content.attachments %}
-                {% for file in content.attachments %}
-                  {{ file | detect_file }}
-                {% endfor %}
-              {% endif %}
-            </span>
-          {% endfor %}
+                {% if content.attachments %}
+                  {% for file in content.attachments %}
+                    {{ file | detect_file }}
+                  {% endfor %}
+                {% endif %}
+              </span>
+            {% endfor %}
+          </div>
         </div>
-      </div>
+      {% endif %}
     {% endfor %}
   </section>
 

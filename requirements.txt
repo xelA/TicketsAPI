@@ -1,3 +1,4 @@
+jsonschema
 markdown
 sanic
 sanic-jinja2
