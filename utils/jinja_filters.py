@@ -5,6 +5,12 @@ def discord_to_html(input):
     temp_text = input
     discord_emoji = "(<|&lt;)(a?):([^:]+):(\d+)(&gt;|>)"
 
+    try:
+        if temp_text[0] == "#":
+            temp_text = "&#35;" + temp_text[1:]
+    except IndexError:
+        pass  # probably image uploaded...
+
     test_data = re.sub(discord_emoji, "", temp_text)
     add_jumbo = "" if test_data else " jumboable"
 
