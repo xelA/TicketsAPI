@@ -5,6 +5,7 @@ html, body {
   margin: 0 auto;
 }
 
+a { word-break: break-word; }
 h1, h2, h3, h4, h5, a, b, p, span { color: #fff; }
 img { -webkit-user-drag: none; }
 code { background: rgba(0, 0, 0, .5); padding: 3px 6px; }
