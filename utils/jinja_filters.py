@@ -8,6 +8,8 @@ def discord_to_html(input):
     try:
         if temp_text[0] == "#":
             temp_text = "&#35;" + temp_text[1:]
+        elif temp_text.startswith("..."):
+            temp_text = "\..." + temp_text[3:]
     except IndexError:
         pass  # probably image uploaded...
 
