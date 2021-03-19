@@ -3,7 +3,7 @@
     {
       "name":"TicketsAPI",
       "script":"index.py",
-      "interpreter" : "python3.7",
+      "interpreter" : "python",
       "interpreter_args": "-u"
     }
   ]

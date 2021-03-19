@@ -1,5 +1,5 @@
 jsonschema
 markdown
-sanic
+sanic==19.6.2
 sanic-jinja2
 sanic-scheduler
