@@ -26,12 +26,20 @@ def discord_to_html(input):
 
 
 def match_url(input):
-    temp_input = input.replace("&lt;", "<").replace("&gt;", ">")
+    # temp_input = input.replace("&lt;", "<").replace("&gt;", ">")
+
+    def remove_arrow(text: str):
+        if text.endswith("&gt;"):
+            text = text[:-4]
+        elif text.endswith(">"):
+            text = text[:-1]
+
+        return text
 
     finding = re.sub(
-        "((http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)",
-        lambda g: f'<a class="link" href="{g.group(0)}" target="_blank">{g.group(0)}</a>',
-        temp_input
+        "(?:&lt\;|<?)((http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-;])?)(?:&gt\;|>?)",
+        lambda g: f'<a class="link" href="{remove_arrow(g.group(1))}" target="_blank">{remove_arrow(g.group(1))}</a>',
+        input
     )
 
     return finding
