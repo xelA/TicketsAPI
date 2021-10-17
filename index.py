@@ -1,52 +1,69 @@
 import json
 import time
-import os
 import markdown
 import html
-import jinja2 as jinja2_original
+import asyncio
+import markupsafe
 
-from sanic import response, Sanic
-from datetime import timedelta
-from sanic_jinja2 import SanicJinja2
-from sanic_scheduler import SanicScheduler, task
+from quart import Quart, render_template, request, jsonify, redirect
 from utils import sqlite, tickets, jinja_filters
 
-# Sanic itself
-app = Sanic()
-app.static('/static', './static')
+# Quart itself
+app = Quart(__name__)
+app.config["JSON_SORT_KEYS"] = False
 
-# Sanic plugins
-scheduler = SanicScheduler(app)
-jinja = SanicJinja2(app)
+# Create a loop (Python 3.10)
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 
 # General configs
 db = sqlite.Database()
 db.create_tables()  # Attempt to create table(s) if not exists already.
-config = json.load(open("config.json", "r"))
+
+with open("config.json", "r") as f:
+    config = json.load(f)
+
 md = markdown.Markdown(extensions=["meta"])
 
 # Jinja2 template filters
-jinja.env.filters["markdown"] = lambda text: jinja2_original.Markup(md.convert(text))
-jinja.env.filters["discord_to_html"] = lambda text: jinja_filters.discord_to_html(text)
-jinja.env.filters["find_url"] = lambda text: jinja_filters.match_url(text)
-jinja.env.filters["detect_file"] = lambda file: jinja_filters.detect_file(file)
+app.jinja_env.filters["markdown"] = lambda text: markupsafe.Markup(md.convert(text))
+app.jinja_env.filters["discord_to_html"] = lambda text: jinja_filters.discord_to_html(text)
+app.jinja_env.filters["find_url"] = lambda text: jinja_filters.match_url(text)
+app.jinja_env.filters["detect_file"] = lambda file: jinja_filters.detect_file(file)
+
+
+# Database cleaning task
+async def background_task():
+    """ Delete old ticket entries for privacy reasons """
+    while True:
+        db.execute("DELETE FROM tickets WHERE ? > expire", (int(time.time()),))
+        await asyncio.sleep(5)
+
+
+@app.before_serving
+async def startup():
+    app.background_task = asyncio.ensure_future(background_task())
+
+
+@app.after_serving
+async def shutdown():
+    app.background_task.cancel()
+
+
+def jsonify_standard(name: str, description: str, code: int = 200):
+    """ The standard JSON output to my API """
+    return jsonify({
+        "code": code, "name": name, "description": description
+    }), code
 
 
 @app.route("/")
-@jinja.template("index.html")
-async def index(request):
-    return {"test": "This is a nice test"}
+async def index():
+    return await render_template("index.html", config=config)
 
 
-@task(timedelta(seconds=60))
-def delete_old_tickets(app):
-    """ Delete old ticket entries for privacy reasons """
-    db.execute("DELETE FROM tickets WHERE ? > expire", (int(time.time()),))
-
-
-@app.route("/<ticket_id:string>")
-@jinja.template("ticket.html")
-async def show_ticket(request, ticket_id):
+@app.route("/<ticket_id>")
+async def show_ticket(ticket_id):
     ticket_db = tickets.Ticket(db=db)
     data = ticket_db.fetch_ticket(ticket_id)
 
@@ -84,78 +101,82 @@ async def show_ticket(request, ticket_id):
 
     get_logs["messages"] = converted_logs
 
-    return {
-        "status": 200, "title": f"#{get_logs['channel_name']} | xelA Tickets", "submitted_by": data["submitted_by"],
-        "ticket_id": data["ticket_id"], "guild_id": data["guild_id"], "author_id": str(data["author_id"]),
-        "created_at": data["created_at"], "confirmed_by": str(data["confirmed_by"]),
-        "expires": data["expire"], "context": data["context"], "official_bot": config["bot_id"],
-        "channel_name": get_logs["channel_name"], "valid_source": valid_source, "logs": get_logs
-    }
+    return await render_template(
+        "ticket.html",
+        status=200, title=f"#{get_logs['channel_name']} | xelA Tickets", submitted_by=data["submitted_by"],
+        ticket_id=data["ticket_id"], guild_id=data["guild_id"], author_id=str(data["author_id"]),
+        created_at=data["created_at"], confirmed_by=str(data["confirmed_by"]),
+        expires=data["expire"], context=data["context"], official_bot=config["bot_id"],
+        channel_name=get_logs["channel_name"], valid_source=valid_source, logs=get_logs
+    )
 
 
-@app.route("/<ticket_id:string>/download")
-async def download_ticket(request, ticket_id):
+@app.route("/<ticket_id>/download")
+async def download_ticket(ticket_id):
     ticket_db = tickets.Ticket(db=db)
     data = ticket_db.fetch_ticket(ticket_id)
 
     if not data:
-        return response.json({"status": 404, "code": ticket_id}, status=404)
+        return jsonify_standard("Not found", f"Ticket {ticket_id} not found", 404)
 
-    return response.json(json.loads(data["logs"]))
+    return jsonify(json.loads(data["logs"]))
 
 
 @app.route("/submit/example")
-async def submit_example(request):
+async def submit_example():
     with open("examples/submit.json", "r") as f:
         data = json.load(f)
 
-    return response.json(data)
+    return jsonify(data)
 
 
 @app.route("/submit", methods=["POST"])
-async def submit(request):
+async def submit():
     token = request.headers.get("Authorization") or None
     uploaded_file = False
 
-    if request.files:
+    files = await request.files
+    if files:
         uploaded_file = True
-        file = request.files.get("ticket_file") or None
+        file = files.get("ticket_file") or None
         if not file:
-            return response.json({"status": 400, "message": "Unknown filename..."}, status=400)
-        if file.type != "application/json":
-            return response.json({"status": 400, "message": "Invalid filetype... (Only accepts JSON)"}, status=400)
+            return jsonify_standard("Missing file", "Missing uploaded file...", 400)
+        if file.content_type != "application/json":
+            return jsonify_standard("Invalid file", "Invalid file type, only JSON is allowed...", 400)
 
+        file_body = file.stream.read().decode("utf-8")
         try:
-            post_data = json.loads(file.body)
-        except Exception:
-            return response.json({"status": 400, "message": "Somehow, this JSON is broken..."}, status=400)
+            post_data = json.loads(file_body)
+        except Exception as e:
+            return jsonify_standard("Broken", str(e), 400)
     else:
-        if not request.json:
-            return response.json({"status": 400, "message": "Missing JSON/data"}, status=400)
-        post_data = request.json
+        post_data = await request.json
+        if not post_data:
+            return jsonify_standard("Missing data", "Missing JSON/data...", 400)
 
     if "submitted_by" not in post_data:
-        return response.json({"status": 400, "message": "Missing 'submitted_by' in JSON"}, status=400)
+        return jsonify_standard("Missing data", "Missing 'submitted_by' in JSON", 400)
 
     if post_data["submitted_by"] == config["bot_id"]:
         if not token:
             post_data["submitted_by"] = "86477779717066752"  # If a user is uploading the JSON file without changing submitted_by
         if token and token != config["token"]:
-            return response.json({"status": 403, "message": "Invalid Authorization token..."}, status=403)
+            return jsonify_standard("Invalid token", "Invalid Authorization token...", 403)
 
     make_ticket = tickets.Ticket(payload=post_data, db=db)
     code, data = make_ticket.attempt_post()
 
     if code != 200:
-        return response.json({"status": code, "message": data.message, "validator": data.validator}, status=code)
+        return jsonify_standard(f"Error: {data.message}", data.validator, code)
 
     if uploaded_file:
-        return response.redirect(f"/{data}")
+        return redirect(f"/{data}")
     else:
-        return response.json({"status": code, "message": data})
+        return jsonify_standard("Success", data, code)
 
 
 if __name__ == "__main__":
-    # Sanic + Windows ports is weird so you can only have 1 worker on it...
-    workers = 1 if os.name == "nt" else config["sanic_workers"]
-    app.run(host="0.0.0.0", port=config["port"], workers=workers)
+    app.run(
+        port=config.get("port", 8080),
+        debug=config.get("debug", False)
+    )

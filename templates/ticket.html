@@ -85,7 +85,7 @@
 
                 {% if content.attachments %}
                   {% for file in content.attachments %}
-                    {{ file | detect_file }}
+                    {{ file | detect_file | safe }}
                   {% endfor %}
                 {% endif %}
               </span>

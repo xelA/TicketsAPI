@@ -1,5 +1,3 @@
 jsonschema
 markdown
-sanic==19.6.2
-sanic-jinja2
-sanic-scheduler
+quart
