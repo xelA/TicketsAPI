@@ -14,7 +14,7 @@ def discord_to_html(input):
         pass  # probably image uploaded...
 
     test_data = re.sub(discord_emoji, "", temp_text)
-    add_jumbo = "" if test_data else " jumboable"
+    add_jumbo = " jumboable" if not test_data else ""
 
     new_data = re.sub(discord_emoji, lambda g: f'<img class="emoji{add_jumbo}" src="https://cdn.discordapp.com/emojis/{g.group(4)}.{"gif" if g.group(2) else "png"}" alt="{g.group(3)}"/>', temp_text)
     temp_text = new_data

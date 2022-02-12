@@ -46,7 +46,7 @@
         <span class="tag context">Ticket context</span>
       </h2>
       <div class="content-container">
-        <span class="content"><p>{{ context }}</p></span>
+        <span class="content"><p>{{ context | safe | find_url | discord_to_html | markdown }}</p></span>
       </div>
     </div>
     {% for g in logs.messages %}
@@ -126,9 +126,6 @@
 
     let new_text = find_p[0].innerText.replace(" ", "")
     let get_img = find_contents[g].getElementsByTagName("img")
-    if (new_text.length == 0) {
-      for (var emoji = 0; emoji < get_img.length; emoji++) { get_img[emoji].classList.add("jumboable") }
-    }
   }
 </script>
 {% endblock %}
