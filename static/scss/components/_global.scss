@@ -20,14 +20,15 @@ code { background: rgba(0, 0, 0, .5); padding: 3px 6px; }
   position: relative;
 
   &::after {
-    background: rgba(250, 166, 26, .1);
+    background-color: rgba(250, 166, 26, .1);
     content: ' ';
     height: 100%;
-    left: -3px;
-    padding-bottom: 6px;
-    padding-right: 6px;
+    left: -1em;
+    padding-bottom: .25em;
+    padding-left: .1em;
+    padding-top: .25em;
     position: absolute;
-    top: -3px;
+    top: -.25em;
     width: 100%;
     z-index: -1;
   }

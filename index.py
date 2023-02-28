@@ -88,8 +88,11 @@ async def show_ticket(ticket_id):
                 converted_msg = None
 
             temp_holder.append({
+                "id": content["id"],
                 "msg": converted_msg,
                 "attachments": content["attachments"] if "attachments" in content else False,
+                "reply": content.get("reply", None),
+                "stickers": content.get("stickers", []),
                 "edited": content["edited"] if "edited" in content and content["edited"] else False,
                 "deleted": True if "deleted" in content and content["deleted"] else False
             })
@@ -101,13 +104,38 @@ async def show_ticket(ticket_id):
 
     get_logs["messages"] = converted_logs
 
+    messages_map = {}
+    for i, entry in enumerate(get_logs["messages"], start=1):
+        for ii, msg_entry in enumerate(entry["content"], start=1):
+            messages_map[msg_entry["id"]] = msg_entry
+            messages_map[msg_entry["id"]]["href_id"] = f"message-{i}-{ii}"
+            messages_map[msg_entry["id"]]["author"] = entry["author"]
+
+            messages_map[msg_entry["id"]]["msg_shoten"] = (
+                msg_entry["msg"]
+                if len(msg_entry["msg"]) < 32
+                else msg_entry["msg"][:32].strip() + "..."
+            )
+
+    def reference_message(msg_id):
+        return messages_map.get(msg_id, None)
+
+    def get_author(user_id: int):
+        if str(user_id) not in get_logs["users"]:
+            return {
+                "avatar": "/static/images/default.png",
+                "username": "Unknown#0000",
+            }
+        return get_logs["users"][str(user_id)]
+
     return await render_template(
         "ticket.html",
         status=200, title=f"#{get_logs['channel_name']} | xelA Tickets", submitted_by=data["submitted_by"],
         ticket_id=data["ticket_id"], guild_id=data["guild_id"], author_id=str(data["author_id"]),
         created_at=data["created_at"], confirmed_by=str(data["confirmed_by"]),
         expires=data["expire"], context=data["context"], official_bot=config["bot_id"],
-        channel_name=get_logs["channel_name"], valid_source=valid_source, logs=get_logs
+        channel_name=get_logs["channel_name"], valid_source=valid_source, logs=get_logs,
+        reference_message=reference_message, str=str, get_author=get_author
     )
 
 

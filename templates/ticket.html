@@ -67,27 +67,57 @@
             {% for content in g.content %}
               {% set cont_count = loop.index %}
               {% set msg_to_send = content.msg %}
-              <span class="content {% if content.edited %}edited{% endif %}{% if content.deleted %}deleted{% endif %}" id="message-{{ auth_count }}-{{ cont_count }}" onclick="scroll_to(this.getAttribute('id'))">
-                {% if content.edited %}
-                  {% set msg_to_send = content.edited %}
-                  <div class="edited-content tooltop hide" data-tooltip="test">
-                    {{ content.msg | safe | find_url | discord_to_html | markdown }}
-                  </div>
+
+              {% set href_id = "message-" + str(auth_count) + "-" + str(cont_count) %}
+              <span
+                class="content {% if content.edited %}edited{% endif %}{% if content.deleted %}deleted{% endif %}{% if content.reply %}has_reply{% endif %}"
+                id="{{ href_id }}"
+              >
+                {% if content.reply %}
+                  {% set ref_msg = reference_message(content.reply) %}
+                  {% if ref_msg %}
+                    {% set ref_user = get_author(ref_msg.author) %}
+                    <span class="ref-content" onclick="scroll_to('{{ ref_msg.href_id }}')">
+                      <img class="ref-avatar" src="{{ ref_user.avatar }}">
+                      <div class="ref-username">{{ ref_user.username }}</div>
+                      {{ ref_msg.msg_shoten or "..." }}
+                    </span>
+                  {% endif %}
                 {% endif %}
 
-                {% if content.deleted %}
-                  <div class="deleted-content tooltip" data-tooltip="This message was deleted...">
+                <div class="main-content" onclick="scroll_to('{{ href_id }}')">
+
+                  {% if content.edited %}
+                    {% set msg_to_send = content.edited %}
+                    <div class="edited-content tooltop hide" data-tooltip="test">
+                      {{ content.msg | safe | find_url | discord_to_html | markdown }}
+                    </div>
+                  {% endif %}
+
+                  {% if content.deleted %}
+                    <div class="deleted-content tooltip" data-tooltip="This message was deleted...">
+                      {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
+                    </div>
+                  {% elif content.msg %}
                     {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
-                  </div>
-                {% elif content.msg %}
-                  {{ msg_to_send | safe | find_url | discord_to_html | markdown }}
-                {% endif %}
+                  {% endif %}
 
-                {% if content.attachments %}
-                  {% for file in content.attachments %}
-                    {{ file | detect_file | safe }}
-                  {% endfor %}
-                {% endif %}
+                  {% if content.attachments %}
+                    {% for file in content.attachments %}
+                      {{ file | detect_file | safe }}
+                    {% endfor %}
+                  {% endif %}
+
+                  {% if content.stickers %}
+                    <div class="stickers-container">
+                      {% for sticker in content.stickers %}
+                        <div class="sticker"><img src="{{ sticker }}"></div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+
+                </div>
+
               </span>
             {% endfor %}
           </div>
