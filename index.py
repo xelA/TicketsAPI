@@ -113,7 +113,7 @@ async def show_ticket(ticket_id):
 
             messages_map[msg_entry["id"]]["msg_shoten"] = (
                 msg_entry["msg"]
-                if len(msg_entry["msg"]) < 32
+                if len(msg_entry["msg"] or "") < 32
                 else msg_entry["msg"][:32].strip() + "..."
             )
 
