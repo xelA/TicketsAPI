@@ -9,6 +9,8 @@ __pycache__/
 config.json
 tokens.json
 *.db
+examples/ticket-*
+!examples/submit.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
